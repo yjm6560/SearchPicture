@@ -13,7 +13,7 @@ if __name__ == "__main__":
     for data in data_list:
         print(data)
         logger.insertNonTextyPhoto(data[0], data[1], data[2])
-    print("wow")
+
     tag_data = ["cat", "dog", "truck"]
 
     for tag in tag_data:
