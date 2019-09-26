@@ -1,9 +1,19 @@
 from anytree import Node, RenderTree
-from HierarchyTree.FilePath import filePathGetter
+from FilePath import FilePathGetter
+
+'''
+HierarchyTree
+    계층트리 클래스
+    기능
+        1. 트리 생성
+        2. 키워드로 노드 검색 후 연결된 노드들 리턴(부모 노드들, 자신, 자식 노드들)
+        3. 트리 전체 출력
+'''
+# TODO : ImageNet Tree 붙여서 구성하기
 
 class HierarchyTree:
     def __init__(self):
-        self.file_name = filePathGetter.getFilePath()
+        self.file_name = FilePathGetter.getNaverGoodsTreeFilePath()
         self.node_set = []
         self.content = []
 
@@ -60,6 +70,8 @@ class HierarchyTree:
 
     def showTree(self):
         print("==" * 20)
+        print("==" * 8 + "트리정보" + "==" * 8)
+        print("==" * 20)
         for row in RenderTree(self.node_set[0]):
             pre, fill, node = row
             print(f"{pre}{node.name}, data: {node.data}")
@@ -71,4 +83,4 @@ if __name__ == "__main__":
     print(f'keyword : 패션의류 result : {ht.searchKeyword("패션의류")}')
     print(f'keyword : 러닝 result : {ht.searchKeyword("러닝")}')
     print(f'keyword : 신발 result : {ht.searchKeyword("신발")}')
-
+    ht.showTree()

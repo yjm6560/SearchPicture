@@ -1,13 +1,22 @@
 import cv2
 import argparse
 import numpy as np
-import GetImages as GI
+import ImageGetter as GI
 from time import sleep
 
-class ImageClassfier:
+'''
+ImageClassifier
+    이미지 분류기
+    기능
+        1. 특정 directory 안에 있는 이미지 읽어오기
+        2. 이미지 classify
+'''
+#TODO : 1. OCR 적용 2. batch 적용
 
-    def __init__(self, dir_path):
-        self.imageGetter = GI.imageManager(dir_path)
+class ImageClassifier:
+
+    def __init__(self, user_id):
+        self.imageGetter = GI.ImageGetter(user_id)
         self.fileList = self.imageGetter.getFileList()
         self.weights_file = 'yolov3.weights'
         self.config_file = 'yolov3.cfg'
@@ -83,5 +92,5 @@ def parser(self):
     return args
 
 if __name__ == "__main__":
-    IC = ImageClassfier('image')
+    IC = ImageClassifier('image')
     IC.imagesClassify()

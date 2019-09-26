@@ -2,14 +2,19 @@ import numpy as np
 import cv2
 import sys
 import os
+from FilePath import FilePathGetter
+'''
+ImageGetter
+    디렉토리 내의 이미지 경로들을 가져오는 클래스
+'''
 
-class imageManager:
+class ImageGetter:
 
-    def __init__(self, path):
-        self.path_dir = path
+    def __init__(self, user_id):
+        self.path_dir = FilePathGetter.getImageDirPath() + "\\" + user_id
 
     def setDirPath(self, path):
-        path_dir = path
+        self.path_dir = path
 
     def getDirPath(self):
         return self.path_dir
@@ -23,6 +28,6 @@ class imageManager:
 
 
 if __name__ == "__main__":
-    imageGetter = imageManager('C:\\Users\yjm75\\OneDrive\문서\임종민\졸프\yolo\\object-detection-opencv\\image')
+    imageGetter = ImageGetter('yjm6560')
     print(imageGetter.getDirPath())
     print(imageGetter.getFileList())
