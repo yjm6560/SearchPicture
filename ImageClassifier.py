@@ -43,7 +43,6 @@ class ImageClassifier:
 
         cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-
     def readImages(self):
         imageList = []
         for i in self.fileList:
@@ -91,6 +90,7 @@ def parser(self):
 
     return args
 
+
 if __name__ == "__main__":
-    IC = ImageClassifier('image')
+    IC = ImageClassifier('yjm6560')
     IC.imagesClassify()
