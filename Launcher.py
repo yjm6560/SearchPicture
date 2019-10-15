@@ -29,27 +29,33 @@ if __name__ == "__main__":
     data_list = IC.imagesClassify()
 
     #classify images and insert into database
-    print("inserted image list")
+    print("="*30)
+    print("INSERTED IMAGE LIST")
+    print("="*30)
     for data in data_list:
-        print(data[1])
+        print("\t",data[1])
         logger.insertTextyPhoto(data[0], data[1], data[2], data[3])
     #test example
     tag_data = ["cat", "dog", "truck"]
     text_tag = ["second","first"]
 
     #search by tag
-    print("\nTAG SEARCH")
+    print("="*30)
+    print("TAG SEARCH")
+    print("="*30)
     for tag in tag_data:
         print("SEARCH TAG : ", tag)
         ret = logger.getPhotoByTag(tag)
         for dat in ret:
-            print("\t",dat)
+            print("\t",dat[1])
     #search by text
-    print("\nTEXT SEARCH")
+    print("=" * 30)
+    print("TEXT SEARCH")
+    print("=" * 30)
     for text in text_tag:
         print("SEARCH TEXT : ", text)
         ret = logger.getPhotoByText(text)
         for dat in ret:
-            print("\t", dat)
+            print("\t", dat[1])
 
 
