@@ -58,7 +58,7 @@ class FindTextRegion:
         #min_line_length : 선으로 판단되는 최소 길이
         #max_line_gap : 이 값 이상 떨어져 있으면 별개의 직선으로 판단
         lines = cv2.HoughLinesP(closing_image, 1, np.pi/180, threshold, min_line_length, max_line_gap)
-        for line in liens:
+        for line in lines:
             x1, y1, x2, y2 = line[0]
             cv2.line(closing_image, (x1, y1), (x2, y2), (0,255,0), 2)
         

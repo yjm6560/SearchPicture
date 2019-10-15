@@ -1,6 +1,6 @@
 #tesseract ocr
 import pytesseract
-import FindTextRegion
+import text.FindTextRegion as FindTextRegion
 import cv2
 
 '''
@@ -20,7 +20,7 @@ class TesseractOCR:
     def ocr(self, text_region_list):
         result = ''
         for img in text_region_list:
-            string = pytesseract.image_to_string(img, lang='kor')
+            string = pytesseract.image_to_string(img, lang='eng')
             result = result + string + '\n'
 
         return result
