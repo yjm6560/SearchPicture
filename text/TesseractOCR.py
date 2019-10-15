@@ -13,24 +13,23 @@ test 필요
 '''
 
 class TesseractOCR:
-    def __init__(self, image):
+    def __init__(self):
         #images는 numpy.ndarray들의 list여야한다
         pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract' #tesseract가 저장된 경로 입력
-        #image는 cv2.imread()로 읽은 사진
-        self.image = image
 
-    def ocr(self):
+    def ocr(self, text_region_list):
         result = ''
-        for img in self.text_region_list:
+        for img in text_region_list:
             string = pytesseract.image_to_string(img, lang='kor')
             result = result + string + '\n'
 
         return result
 
-    def findTextOnImage(self):
-        findtextregion = FindTextRegion.FindTextRegion(self.image)
-        self.text_region_list = findtextregion.findTextRegion(5, 5, 15, 3, 5, 5, 1)
-        text = self.ocr()
+    def findTextOnImage(self, image):
+        #image는 cv2.imread()로 읽은 사진
+        findtextregion = FindTextRegion.FindTextRegion(image)
+        text_region_list = findtextregion.findTextRegion(5, 5, 15, 3, 5, 5, 1)
+        text = self.ocr(text_region_list)
 
         return text
 
@@ -38,9 +37,9 @@ class TesseractOCR:
 #text
 '''
 if __name__ == "__main__":
-    a = cv2.imread('1.jpg')
-    b = TesseractOCR(a)
-    result = b.findTextOnImage()
+    a = cv2.imread('4.jpg')
+    b = TesseractOCR()
+    result = b.findTextOnImage(a)
 
     print(result)
 '''
