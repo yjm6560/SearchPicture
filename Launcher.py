@@ -25,10 +25,16 @@ if __name__ == "__main__":
 
     for data in data_list:
         print(data)
-        logger.insertNonTextyPhoto(data[0], data[1], data[2])
-
+        logger.insertTextyPhoto(data[0], data[1], data[2], data[3])
     #test example
     tag_data = ["cat", "dog", "truck"]
+    text_tag = ["second","first"]
 
+    print("TAG SEARCH")
     for tag in tag_data:
-        print(logger.getPhotoByTag(tag))
+        print(tag, " ", logger.getPhotoByTag(tag))
+
+    print("TEXT SEARCH")
+    for text in text_tag:
+        print(text, " ", logger.getPhotoByText(text))
+

@@ -2,6 +2,7 @@ import cv2
 import argparse
 import numpy as np
 import ImageGetter as GI
+import text.TesseractOCR as TesseractOCR
 from time import sleep
 
 '''
@@ -22,6 +23,7 @@ class ImageClassifier:
         self.config_file = 'yolov3.cfg'
         self.classes_file = 'yolov3.txt'
         self.classes = []
+        self.TesseractOCR = TesseractOCR.TesseractOCR()
         with open(self.classes_file, 'r') as f:
             self.classes = [line.strip() for line in f.readlines()]
 
@@ -55,7 +57,7 @@ class ImageClassifier:
         image_list = self.readImages()
         tag_list = []
         for i in range(0, len(self.fileList)):
-            tag_list.append((i, self.fileList[i], self.oneImageClassify(net, image_list[i])))
+            tag_list.append((i, self.fileList[i], self.oneImageClassify(net, image_list[i]), self.TesseractOCR.findTextOnImage(image_list[i])))
 
         return tag_list
 
