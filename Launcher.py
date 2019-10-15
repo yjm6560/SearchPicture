@@ -9,6 +9,7 @@ Launcher
 3. test
 '''
 #TODO : 지금은 한 번 돌고 끝내는 상황임. 무한으로 돌게 고쳐야됨
+#TODO : 계층트리 적용
 
 DEBUG = True
 
