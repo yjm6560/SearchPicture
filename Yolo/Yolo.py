@@ -2,7 +2,6 @@ import cv2
 import argparse
 import numpy as np
 import ImageGetter as GI
-import text.TesseractOCR as TesseractOCR
 from time import sleep
 
 '''
@@ -21,7 +20,6 @@ class Yolo:
         self.config_file = 'yolov3.cfg'
         self.classes_file = 'yolov3.txt'
         self.classes = []
-        self.TesseractOCR = TesseractOCR.TesseractOCR()
         with open(self.classes_file, 'r') as f:
             self.classes = [line.strip() for line in f.readlines()]
 
