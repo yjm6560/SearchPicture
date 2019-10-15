@@ -41,14 +41,14 @@ class Logger:
         return self.cur.fetchall()
 
     def insertNonTextyPhoto(self, photo_id, photo_path, tag_list):
-        #텍스트 포함 이미지 삽입
+        #텍스트 미포함 이미지 삽입
         insert_query = "INSERT INTO " + self.db_name + "(photo_id, path, tag_list) VALUES( ? , ? , ? )"
         self.cur.execute(insert_query, (photo_id, photo_path, ", ".join(tag_list)))
 
     def insertTextyPhoto(self, photo_id, photo_path, tag_list, text):
-        #텍스트 미포함 이미지 삽입
+        #텍스트 포함 이미지 삽입
         insert_query = "INSERT INTO " + self.db_name + " VALUES( ? , ? , ? , ?)"
-        self.cur.execute(insert_query, (photo_id, photo_path, ", ".join(tag_list), text))
+        self.cur.execute(insert_query, (photo_id, photo_path, "text" + ", ".join(tag_list), text))
 
 
 if __name__ == "__main__":
