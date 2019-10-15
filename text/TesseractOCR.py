@@ -1,5 +1,7 @@
 #tesseract ocr
 import pytesseract
+
+import Launcher
 import text.FindTextRegion as FindTextRegion
 import cv2
 
@@ -27,10 +29,12 @@ class TesseractOCR:
 
     def findTextOnImage(self, image):
         #image는 cv2.imread()로 읽은 사진
+
+        if Launcher.DEBUG:
+            return self.ocr([image])
         findtextregion = FindTextRegion.FindTextRegion(image)
         text_region_list = findtextregion.findTextRegion(5, 5, 15, 3, 5, 5, 1)
         text = self.ocr(text_region_list)
-
         return text
 
 
