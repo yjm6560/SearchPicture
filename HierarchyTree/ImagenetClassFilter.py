@@ -3,9 +3,9 @@ import re
 from anytree import Node, RenderTree
 
 class ImagenetClassFilter:
-    def __init__(self):
-        self.trainingLabelFilePath = "ImageNet.txt"
-        self.wnid2nameFilePath = "wnid2name.txt"
+    def __init__(self, training_label, wnid2name):
+        self.trainingLabelFilePath = training_label
+        self.wnid2nameFilePath = wnid2name
         self.trainingLabel = []
         self.wnid2name = {}
 
@@ -24,7 +24,7 @@ class ImagenetClassFilter:
                 m = pattern.search(line.replace("\n",""))
 
                 self.trainingLabel.append(str(m.group()).replace(", ", "/", len(str(m.group)))[1:-1])
-    def tmp(self):
+    def writeTrainingLabels2File(self):
         with open("training_label.dat","w") as f:
             for wnid, name in self.wnid2name.items():
                 if self.changeFormat(name) in self.trainingLabel:
@@ -70,7 +70,7 @@ class ImagenetClassFilter:
         return len("n00000000")
 
 if __name__ == "__main__":
-    icFilter = ImagenetClassFilter()
+    icFilter = ImagenetClassFilter("Imagenet.txt", "wnid2name.txt")
     icFilter.makeTrainingLabelSet()
     icFilter.makeWnid2NameMap()
     for val in icFilter.trainingLabel:
@@ -79,4 +79,4 @@ if __name__ == "__main__":
 #        print(key," ", val)
     print(icFilter.is_name_in_trainingLabel("junco/snowbird"))
     print(icFilter.getData("n02404186"))
-    icFilter.tmp()
+    icFilter.writeTrainingLabels2File()

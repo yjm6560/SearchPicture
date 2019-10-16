@@ -1,10 +1,22 @@
 import re
 from anytree import Node, RenderTree
 
+'''
+    NaverGoodsTreeConverter
+    기능
+        tab으로 이루어진 트리를 parent child 포맷으로 출력시켜준다.
+        makeContent()
+        makeTree()
+        하면 트리가 만들어진다.
+        showTree()
+        하면 트리 출력
+        showTreeP2Cformat()
+        하면 parent child 포맷으로 출력
+'''
 class NaverGoodsTreeConverter:
     def __init__(self):
         self.naverGoodsPath = "NaverGoodsTree.txt"
-        self.targetPath = "_NaverGoodsTreeP2C.txt"
+        self.targetPath = "NaverGoodsTreeP2C.txt"
         self.node_set = []
         self.content = []
 

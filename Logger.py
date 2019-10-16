@@ -56,13 +56,13 @@ if __name__ == "__main__":
     logger.cur.execute("DROP TABLE IF EXISTS " + logger.db_name)
     logger.createTable()
     logger.insertNonTextyPhoto(1, "a", ["note", "book", "pencil"])
-    logger.insertNonTextyPhoto(2, "b", ["news", "pen", "moniter"])
-    logger.insertNonTextyPhoto(3, "c", ["news", "phone", "moniter"])
-    logger.insertNonTextyPhoto(4, "d", ["mouse", "fly", "moniter"])
+    logger.insertNonTextyPhoto(2, "b", ["news", "pen", "monitor"])
+    logger.insertNonTextyPhoto(3, "c", ["news", "phone", "monitor"])
+    logger.insertNonTextyPhoto(4, "d", ["mouse", "fly", "monitor"])
 
     logger.insertTextyPhoto(5, "e", ["text"], "Latte is horse")
     logger.insertTextyPhoto(6, "f", ["text"], "I was a car")
 
     print(logger.getPhotoByText("horse"))
     print(logger.getPhotoByText(["car", "was"]))
-    print(logger.getPhotoByTag(["moniter", "pen"]))
+    print(logger.getPhotoByTag(["monitor", "pen"]))

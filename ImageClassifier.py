@@ -1,9 +1,9 @@
 import cv2
+
+#from HierarchyTree import HierarchyTree
 from Yolo import Yolo
-import numpy as np
 import ImageGetter as GI
 import text.TesseractOCR as TesseractOCR
-from time import sleep
 
 '''
 ImageClassifier
@@ -20,7 +20,9 @@ class ImageClassifier:
         self.imageGetter = GI.ImageGetter(user_id)
         self.fileList = self.imageGetter.getFileList()
         self.textAnalyzer = TesseractOCR.TesseractOCR()
-        self.objClassifier = Yolo.Yolo()
+        self.objClassifier = Yolo.Yolo('Yolo\yolov3.weights', 'Yolo\yolov3.cfg', 'Yolo\yolov3.txt')
+#        self.hierarchyTree = HierarchyTree.HierarchyTree("HierarchyTree\HierarchyTree.dat")
+#        self.hierarchyTree.makeHierarchyTree()
 
     def readImages(self):
         imageList = []

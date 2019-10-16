@@ -15,17 +15,17 @@ HierarchyTree
 # TODO : ImageNet Tree 붙여서 구성하기
 
 class HierarchyTree:
-    def __init__(self):
-        self.file_name = "NaverGoodsTree.txt"
+    def __init__(self, hierarchyTree, trainingLabel, wnid2name):
+        self.hierarchyTreeFile = hierarchyTree
         self.node_set = []
         self.content = {}
-        self.icFilter = ImagenetClassFilter.ImagenetClassFilter()
+        self.icFilter = ImagenetClassFilter.ImagenetClassFilter(trainingLabel, wnid2name)
         self.ngtConverter = NaverGoodsTreeConverter.NaverGoodsTreeConverter()
 
     def makeHierarchyTree(self):
         self.icFilter.makeTrainingLabelSet()
         self.icFilter.makeWnid2NameMap()
-        f = open("finalTree.txt", 'r', encoding='UTF-8')
+        f = open(self.hierarchyTreeFile, 'r', encoding='UTF-8')
 
         self.node_set.append(Node(0, data="root"))
         self.node_set.append(Node(1, data="n00001740", parent=self.node_set[0]))
@@ -140,7 +140,7 @@ class HierarchyTree:
                f.write(f"{node.parent.data} {node.data}\n")
 
 if __name__ == "__main__":
-    ht = HierarchyTree()
+    ht = HierarchyTree("HierarchyTree.dat", "Imagenet.txt", "wnid2name.txt")
     ht.makeHierarchyTree()
     print(f'keyword : 옷의류 result : {ht.searchKeyword("패션의류")}')
     print(f'keyword : 러닝 result : {ht.searchKeyword("러닝")}')

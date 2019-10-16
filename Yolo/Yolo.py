@@ -1,24 +1,23 @@
 import cv2
 import argparse
 import numpy as np
-import ImageGetter as GI
-from time import sleep
 
 '''
-ImageClassifier
-    이미지 분류기
+Yolo
+    Object Detector
+    생성
+        yolov3.weights, yolov3.cfg, yolov3.txt 세 개의 경로를 인자로 넣어주면 됨
     기능
-        1. 특정 directory 안에 있는 이미지 읽어오기
-        2. 이미지 classify
+        1. 인자로 받은 이미지 classify
 '''
 #TODO : 1. OCR 적용 2. batch 적용
 
 class Yolo:
 
-    def __init__(self):
-        self.weights_file = 'yolov3.weights'
-        self.config_file = 'yolov3.cfg'
-        self.classes_file = 'yolov3.txt'
+    def __init__(self, weights, cfg, txt):
+        self.weights_file = weights
+        self.config_file = cfg
+        self.classes_file = txt
         self.classes = []
         with open(self.classes_file, 'r') as f:
             self.classes = [line.strip() for line in f.readlines()]
@@ -75,5 +74,5 @@ def parser(self):
 
 
 if __name__ == "__main__":
-    yolo = Yolo()
+    yolo = Yolo('yolov3.weights','yolov3.cfg','yolov3.txt')
     print(yolo.detectObj(cv2.imread('dog.jpg')))
