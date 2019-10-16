@@ -1,5 +1,6 @@
 from anytree import Node, RenderTree
-from FilePath import FilePathGetter
+import ImagenetClassFilter
+import NaverGoodsTreeConverter
 
 '''
 HierarchyTree
@@ -15,11 +16,15 @@ HierarchyTree
 
 class HierarchyTree:
     def __init__(self):
-        self.file_name = FilePathGetter.getNaverGoodsTreeFilePath()
+        self.file_name = "NaverGoodsTree.txt"
         self.node_set = []
         self.content = {}
+        self.icFilter = ImagenetClassFilter.ImagenetClassFilter()
+        self.ngtConverter = NaverGoodsTreeConverter.NaverGoodsTreeConverter()
 
-    def makeFinalContent(self):
+    def makeHierarchyTree(self):
+        self.icFilter.makeTrainingLabelSet()
+        self.icFilter.makeWnid2NameMap()
         f = open("finalTree.txt", 'r', encoding='UTF-8')
 
         self.node_set.append(Node(0, data="root"))
@@ -27,17 +32,22 @@ class HierarchyTree:
         self.node_set.append(Node(2, data="상품", parent=self.node_set[0]))
 
         self.content["root"] = 0
-        self.content["n00001740"] = 1
+        self.content["n00001740/entity"] = 1
         self.content["상품"] = 2
-#        self.content.append({"root":0})
-#        self.content.append({"n00001740":1})
-#        self.content.append({"상품":2})
-#
+
         while True:
             dat = f.readline()
             if not dat: break
+            dat = dat.replace("\n","",1)
             parent = dat.split()[0]
             child = dat.split()[1]
+
+            if not self.checkIfKeyExists((parent, child)):
+                continue
+
+            parent = self.getData(parent)
+            child = self.getData(child)
+
             if parent not in self.content.keys():
                 self.content[parent] = len(self.node_set)
                 self.node_set.append(Node(len(self.node_set), data=parent))
@@ -49,29 +59,39 @@ class HierarchyTree:
 
         f.close()
 
-    def makeContent(self):
-        f = open(self.file_name, 'r', encoding='UTF8')
-        while True:
-            line = f.readline()
-            if not line: break
-            self.content.append((line.count("\t"), line.replace("\n", "").replace("\t", "", len(line))))
-        f.close()
+        for row in RenderTree(self.node_set[0]):
+            pre, fill, node = row
+            if node.is_leaf:
+                if self.is_in_training_dataset(node.data):
+                    continue
+                else:
+                    parent_node = node.parent
+                    node.parent = None
+                    del node
+                    while(len(parent_node.children) == 0):
+                        tmp_node = parent_node.parent
+                        parent_node.parent = None
+                        del parent_node
+                        parent_node = tmp_node
 
-    def makeTree(self):
-        self.makeContent()
-        self.node_set.append(Node(f'node_{0}', data=self.content[0][1]))
-        self.makeTree_sub(0)
+    def is_in_training_dataset(self, keyword):
+        if keyword[0] != "n" or self.icFilter.is_name_in_trainingLabel(keyword):
+            return True
+        else:
+            return False
 
-    def makeTree_sub(self, nodeNum):
-        while True:
-            if (len(self.content) == len(self.node_set)) or (
-                    self.content[nodeNum][0] > self.content[len(self.node_set)][0] - 1):
-                return
-            elif self.content[nodeNum][0] == self.content[len(self.node_set)][0] - 1:
-                self.node_set.append(Node(f'node_{len(self.node_set)}', parent=self.node_set[nodeNum],
-                                          data=self.content[len(self.node_set)][1]))
-            elif self.content[nodeNum][0] < self.content[len(self.node_set)][0] - 1:
-                self.makeTree_sub(len(self.node_set) - 1)
+    def getData(self, wnid):
+        if wnid[0] != "n":
+            return wnid
+        return wnid + "/" + self.icFilter.getData(wnid)
+
+    def checkIfKeyExists(self, key):
+        if key[0][0] != "n":
+            return True
+        if self.icFilter.check_wnid_in_wnid2key(key[0]) and self.icFilter.check_wnid_in_wnid2key(key[1]):
+            return True
+        else:
+            return False
 
     def searchKeyword(self, keyword):
         for row in RenderTree(self.node_set[0]):
@@ -103,8 +123,6 @@ class HierarchyTree:
         return parents
 
     def showTree(self):
-        for i in range(29):
-            print(f'{i} {self.node_set[i].data}')
         print("==" * 20)
         print("==" * 8 + "트리정보" + "==" * 8)
         print("==" * 20)
@@ -112,6 +130,7 @@ class HierarchyTree:
             pre, fill, node = row
             print(f"{pre}{node.name}, data: {node.data}")
         print("==" * 20)
+
     def showTreeP2Cformat(self):
         with open("NaverGoodsTreeP2C.txt", "w", encoding="UTF-8") as f:
            for row in RenderTree(self.node_set[0]):
@@ -119,13 +138,11 @@ class HierarchyTree:
                if node.data == "상품":
                    continue
                f.write(f"{node.parent.data} {node.data}\n")
-#            print(f"{node.parent.data} {node.data}")
 
 if __name__ == "__main__":
     ht = HierarchyTree()
-    ht.makeFinalContent()
-#    print(f'keyword : 패션의류 result : {ht.searchKeyword("패션의류")}')
-#    print(f'keyword : 러닝 result : {ht.searchKeyword("러닝")}')
-#    print(f'keyword : 신발 result : {ht.searchKeyword("신발")}')
-#    ht.showTree()
+    ht.makeHierarchyTree()
+    print(f'keyword : 옷의류 result : {ht.searchKeyword("패션의류")}')
+    print(f'keyword : 러닝 result : {ht.searchKeyword("러닝")}')
+    print(f'keyword : 신발 result : {ht.searchKeyword("신발")}')
     ht.showTree()

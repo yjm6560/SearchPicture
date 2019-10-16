@@ -53,4 +53,4 @@ if __name__ == "__main__":
     ngtc = NaverGoodsTreeConverter()
     ngtc.makeContent()
     ngtc.makeTree()
-    ngtc.showTreeP2Cformat()
+    ngtc.showTree()
