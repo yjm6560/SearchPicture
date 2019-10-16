@@ -36,8 +36,8 @@ if __name__ == "__main__":
         print("\t",data[1])
         logger.insertTextyPhoto(data[0], data[1], data[2], data[3])
     #test example
-    tag_data = ["cat", "dog", "truck"]
-    text_tag = ["second","first"]
+    tag_data = ["cat", "dog", "truck","person","horse"]
+    text_tag = ["second","first","이거","아프리카돼지열병"]
 
     #search by tag
     print("="*30)

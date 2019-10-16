@@ -22,7 +22,7 @@ class TesseractOCR:
     def ocr(self, text_region_list):
         result = ''
         for img in text_region_list:
-            string = pytesseract.image_to_string(img, lang='eng')
+            string = pytesseract.image_to_string(img, lang='eng+kor')
             result = result + string + '\n'
 
         return result
