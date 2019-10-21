@@ -47,6 +47,8 @@ class Logger:
 
     def insertTextyPhoto(self, photo_id, photo_path, tag_list, text):
         #텍스트 포함 이미지 삽입
+        #TODO: 이어진 글자 사이에 띄어쓰기가 있다고 인식해서 일단 띄어쓰기나 엔터 없앰 추후 어떻게 할지 논의
+        text = text.replace(" ", "", len(text)).replace("\n", "", len(text))
         insert_query = "INSERT INTO " + self.db_name + " VALUES( ? , ? , ? , ?)"
         self.cur.execute(insert_query, (photo_id, photo_path, "/text/" + "/".join(tag_list) + "/", text))
 

@@ -36,7 +36,6 @@ class ImageClassifier:
         image_list = self.readImages()
         tag_list = []
         for i in range(0, len(self.fileList)):
-            print(self.objClassifier.detectObj(image_list[i]))
             tag_list.append((i, self.fileList[i], self.getRelatedClasses(self.objClassifier.detectObj(image_list[i])), self.textAnalyzer.findTextOnImage(image_list[i])))
 
         return tag_list
