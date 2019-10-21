@@ -1,7 +1,8 @@
 from anytree import Node, RenderTree
-import ImagenetClassFilter
-import NaverGoodsTreeConverter
-
+import HierarchyTree.ImagenetClassFilter as ImagenetClassFilter
+import HierarchyTree.NaverGoodsTreeConverter as NaverGoodsTreeConverter
+#import ImagenetClassFilter
+#import NaverGoodsTreeConverter
 '''
 HierarchyTree
     계층트리 클래스
@@ -27,18 +28,18 @@ class HierarchyTree:
         self.icFilter.makeWnid2NameMap()
         f = open(self.hierarchyTreeFile, 'r', encoding='UTF-8')
 
-        self.node_set.append(Node(0, data="root"))
-        self.node_set.append(Node(1, data="n00001740", parent=self.node_set[0]))
-        self.node_set.append(Node(2, data="상품", parent=self.node_set[0]))
+        self.node_set.append(Node(0, data="root/"))
+        self.node_set.append(Node(1, data="n00001740/entity/", parent=self.node_set[0]))
+        self.node_set.append(Node(2, data="상품/", parent=self.node_set[0]))
 
-        self.content["root"] = 0
-        self.content["n00001740/entity"] = 1
-        self.content["상품"] = 2
+        self.content["root/"] = 0
+        self.content["n00001740/entity/"] = 1
+        self.content["상품/"] = 2
 
         while True:
             dat = f.readline()
             if not dat: break
-            dat = dat.replace("\n","",1)
+            dat = dat.replace("\n", "", 1)
             parent = dat.split()[0]
             child = dat.split()[1]
 
@@ -83,7 +84,7 @@ class HierarchyTree:
     def getData(self, wnid):
         if wnid[0] != "n":
             return wnid
-        return wnid + "/" + self.icFilter.getData(wnid)
+        return wnid + "/" + self.icFilter.getData(wnid) + "/"
 
     def checkIfKeyExists(self, key):
         if key[0][0] != "n":
@@ -96,13 +97,13 @@ class HierarchyTree:
     def searchKeyword(self, keyword):
         for row in RenderTree(self.node_set[0]):
             pre, fill, node = row
-            if keyword in node.data:
+            if "/" + keyword + "/" in node.data:
                 return self.getRelatedNodes(node)
 
     def getRelatedNodes(self, node):
         result = []
-        result.append(self.getParents(node))
-        result.append(self.getChildren(node))
+        result += self.getParents(node)
+        result += self.getChildren(node)
         return result
 
     def getChildren(self, node):
@@ -145,4 +146,5 @@ if __name__ == "__main__":
     print(f'keyword : 옷의류 result : {ht.searchKeyword("패션의류")}')
     print(f'keyword : 러닝 result : {ht.searchKeyword("러닝")}')
     print(f'keyword : 신발 result : {ht.searchKeyword("신발")}')
+    print(f'keyword : cat result : {ht.searchKeyword("cat")}')
     ht.showTree()

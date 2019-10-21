@@ -1,6 +1,7 @@
 import cv2
 
 #from HierarchyTree import HierarchyTree
+from HierarchyTree import HierarchyTree
 from Yolo import Yolo
 import ImageGetter as GI
 import text.TesseractOCR as TesseractOCR
@@ -21,8 +22,8 @@ class ImageClassifier:
         self.fileList = self.imageGetter.getFileList()
         self.textAnalyzer = TesseractOCR.TesseractOCR()
         self.objClassifier = Yolo.Yolo('Yolo\yolov3.weights', 'Yolo\yolov3.cfg', 'Yolo\yolov3.txt')
-#        self.hierarchyTree = HierarchyTree.HierarchyTree("HierarchyTree\HierarchyTree.dat")
-#        self.hierarchyTree.makeHierarchyTree()
+        self.hierarchyTree = HierarchyTree.HierarchyTree("HierarchyTree\HierarchyTree.dat", "HierarchyTree/Imagenet.txt", "HierarchyTree/wnid2name.txt")
+        self.hierarchyTree.makeHierarchyTree()
 
     def readImages(self):
         imageList = []
@@ -35,10 +36,21 @@ class ImageClassifier:
         image_list = self.readImages()
         tag_list = []
         for i in range(0, len(self.fileList)):
-            tag_list.append((i, self.fileList[i], self.objClassifier.detectObj(image_list[i]), self.textAnalyzer.findTextOnImage(image_list[i])))
+            print(self.objClassifier.detectObj(image_list[i]))
+            tag_list.append((i, self.fileList[i], self.getRelatedClasses(self.objClassifier.detectObj(image_list[i])), self.textAnalyzer.findTextOnImage(image_list[i])))
 
         return tag_list
 
+    def getRelatedClasses(self, keywords):
+        ret = []
+        for key in keywords:
+            ret += self.hierarchyTree.searchKeyword(key)
+        ret = list(set(ret))
+
+        return ret
+
 if __name__ == "__main__":
     IC = ImageClassifier('yjm6560')
-    print(IC.imagesClassify())
+    result = IC.imagesClassify()
+    for dat in result:
+        print(dat[2])

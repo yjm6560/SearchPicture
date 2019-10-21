@@ -23,7 +23,8 @@ class ImagenetClassFilter:
                     pattern = re.compile(r"\'.*\'")
                 m = pattern.search(line.replace("\n",""))
 
-                self.trainingLabel.append(str(m.group()).replace(", ", "/", len(str(m.group)))[1:-1])
+                self.trainingLabel.append(str(m.group()).replace(", ", "/", len(str(m.group)))[1:-1] + "/")
+
     def writeTrainingLabels2File(self):
         with open("training_label.dat","w") as f:
             for wnid, name in self.wnid2name.items():

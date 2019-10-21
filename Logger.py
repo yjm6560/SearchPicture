@@ -28,13 +28,13 @@ class Logger:
         #태그로 이미지 검색
         select_query = "SELECT photo_id, path, tag_list FROM " + self.db_name + " WHERE"
         for keyword in tag_keywords:
-            select_query += " tag_list LIKE \"%" + keyword + "%\"" + " AND "
+            select_query += " tag_list LIKE \"%/" + keyword + "/%\"" + " AND "
         self.cur.execute(select_query[0:-5])
         return self.cur.fetchall()
 
     def getPhotoByText(self, text_keywords):
         #텍스트로 이미지 검색
-        select_query = "SELECT photo_id, path, tag_list, text_img FROM " + self.db_name + " WHERE tag_list LIKE \"text\" AND"
+        select_query = "SELECT photo_id, path, tag_list, text_img FROM " + self.db_name + " WHERE tag_list LIKE \"/text/%\" AND"
         for keyword in text_keywords:
             select_query += " text_img LIKE \"%" + keyword + "%\"" + " AND "
         self.cur.execute(select_query[0:-5])
@@ -43,12 +43,12 @@ class Logger:
     def insertNonTextyPhoto(self, photo_id, photo_path, tag_list):
         #텍스트 미포함 이미지 삽입
         insert_query = "INSERT INTO " + self.db_name + "(photo_id, path, tag_list) VALUES( ? , ? , ? )"
-        self.cur.execute(insert_query, (photo_id, photo_path, ", ".join(tag_list)))
+        self.cur.execute(insert_query, (photo_id, photo_path, "/" + "/".join(tag_list) + "/"))
 
     def insertTextyPhoto(self, photo_id, photo_path, tag_list, text):
         #텍스트 포함 이미지 삽입
         insert_query = "INSERT INTO " + self.db_name + " VALUES( ? , ? , ? , ?)"
-        self.cur.execute(insert_query, (photo_id, photo_path, "text" + ", ".join(tag_list), text))
+        self.cur.execute(insert_query, (photo_id, photo_path, "/text/" + "/".join(tag_list) + "/", text))
 
 
 if __name__ == "__main__":
@@ -60,9 +60,9 @@ if __name__ == "__main__":
     logger.insertNonTextyPhoto(3, "c", ["news", "phone", "monitor"])
     logger.insertNonTextyPhoto(4, "d", ["mouse", "fly", "monitor"])
 
-    logger.insertTextyPhoto(5, "e", ["text"], "Latte is horse")
-    logger.insertTextyPhoto(6, "f", ["text"], "I was a car")
+    logger.insertTextyPhoto(5, "e", [], "Latte is horse")
+    logger.insertTextyPhoto(6, "f", [], "I was a car")
 
-    print(logger.getPhotoByText("horse"))
+    print(logger.getPhotoByText(["horse"]))
     print(logger.getPhotoByText(["car", "was"]))
     print(logger.getPhotoByTag(["monitor", "pen"]))

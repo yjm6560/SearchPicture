@@ -33,11 +33,10 @@ if __name__ == "__main__":
     print("INSERTED IMAGE LIST")
     print("="*30)
     for data in data_list:
-        print("\t",data[1])
         logger.insertTextyPhoto(data[0], data[1], data[2], data[3])
     #test example
     tag_data = ["cat", "dog", "truck","person","horse"]
-    text_tag = ["second","first","이거","아프리카돼지열병"]
+    text_tag = [["second"],["first"],["이거", "오류"],["아프리카돼지열병"]]
 
     #search by tag
     print("="*30)
@@ -45,7 +44,7 @@ if __name__ == "__main__":
     print("="*30)
     for tag in tag_data:
         print("SEARCH TAG : ", tag)
-        ret = logger.getPhotoByTag(tag)
+        ret = logger.getPhotoByTag([tag])
         for dat in ret:
             print("\t",dat[1])
     #search by text

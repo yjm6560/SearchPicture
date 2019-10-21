@@ -37,6 +37,7 @@ class Yolo:
         cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), color, 2)
 
         cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
     def detectObj(self, image):
         net = cv2.dnn.readNet(self.weights_file, self.config_file)
         return self.classifyOneImage(net, image)
