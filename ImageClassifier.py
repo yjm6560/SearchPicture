@@ -1,6 +1,7 @@
 import cv2
 
 #from HierarchyTree import HierarchyTree
+import Launcher
 from HierarchyTree import HierarchyTree
 from Yolo import Yolo
 import ImageGetter as GI
@@ -29,15 +30,31 @@ class ImageClassifier:
         imageList = []
         for i in self.fileList:
             imageList.append(cv2.imread(i))
-
+        if Launcher.DEBUG:
+            print(f'read {len(imageList)} images')
         return imageList
 
-    def imagesClassify(self):
+    #TODO: yolo batch operation만 적용된 상태. ocr 적용하면 바꿔줘야 함
+    def imagesClassify(self, batch_size=8):
         image_list = self.readImages()
         tag_list = []
-        for i in range(0, len(self.fileList)):
-            tag_list.append((i, self.fileList[i], self.getRelatedClasses(self.objClassifier.detectObj(image_list[i])), self.textAnalyzer.findTextOnImage(image_list[i])))
-
+        for i in range(int(len(self.fileList)/batch_size)+1):
+            ret = None
+            if i*batch_size == len(self.fileList):
+                break
+            elif (i+1)*batch_size > len(self.fileList):
+                ret = self.objClassifier.detectObj_in_Images(image_list[i*batch_size :], len(self.fileList)-(i*batch_size))
+            else:
+                ret = self.objClassifier.detectObj_in_Images(image_list[i*batch_size : (i+1)*batch_size], batch_size)
+            for j in range(len(ret)):
+                order = i*batch_size + j
+                if Launcher.DEBUG:
+                    print(f'{order} : {ret[j]}')
+                    print(f'\t{self.getRelatedClasses(ret[j])}')
+                tag_list.append((order, self.fileList[order], self.getRelatedClasses(ret[j])))
+# Not batch Operation
+#        for i in range(0, len(self.fileList)):
+#            tag_list.append((i, self.fileList[i], self.getRelatedClasses(self.objClassifier.detectObj(image_list[i])), self.textAnalyzer.findTextOnImage(image_list[i])))
         return tag_list
 
     def getRelatedClasses(self, keywords):

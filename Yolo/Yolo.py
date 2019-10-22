@@ -38,16 +38,43 @@ class Yolo:
 
         cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-    def detectObj(self, image):
+    def detectObj_in_Image(self, image):
         net = cv2.dnn.readNet(self.weights_file, self.config_file)
         return self.classifyOneImage(net, image)
+
+    def detectObj_in_Images(self, images, batch_size=8):
+        net = cv2.dnn.readNetFromDarknet(self.config_file, self.weights_file)
+        net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+        net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+        if batch_size == 1:
+            return [self.classifyOneImage(net, images)]
+        else:
+            return self.classifyImages(net, images, batch_size)
+
+    def classifyImages(self, net, images, batch_size=8):
+        result_list = []
+        scale = 0.00392
+        blob = cv2.dnn.blobFromImages(images, scale, (416, 416), (0, 0, 0), True, crop=False)
+        net.setInput(blob)
+        outs = net.forward(self.get_output_layers(net))
+        for out in outs:
+            for classified in out:
+                class_list = []
+                for detection in classified:
+                    scores = detection[5:]
+                    class_id = np.argmax(scores)
+                    confidence = scores[class_id]
+                    if confidence > 0.5:
+                        if self.classes[class_id] not in class_list:
+                            class_list.append(self.classes[class_id])
+                result_list.append(class_list)
+        return result_list[:batch_size]
 
     def classifyOneImage(self, net, image):
         scale = 0.00392
         class_list = []
 
-        blob = cv2.dnn.blobFromImage(image, scale, (416, 416), (0, 0, 0), True, crop=False)
-
+        blob = cv2.dnn.blobFromImages(image, scale, (416, 416), (0, 0, 0), True, crop=False)
         net.setInput(blob)
 
         outs = net.forward(self.get_output_layers(net))
@@ -76,4 +103,4 @@ def parser(self):
 
 if __name__ == "__main__":
     yolo = Yolo('yolov3.weights','yolov3.cfg','yolov3.txt')
-    print(yolo.detectObj(cv2.imread('dog.jpg')))
+    print(yolo.detectObj_in_Images(cv2.imread('dog.jpg')))

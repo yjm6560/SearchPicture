@@ -33,7 +33,7 @@ if __name__ == "__main__":
     print("INSERTED IMAGE LIST")
     print("="*30)
     for data in data_list:
-        logger.insertTextyPhoto(data[0], data[1], data[2], data[3])
+        logger.insertNonTextyPhoto(data[0], data[1], data[2])
     #test example
     tag_data = ["cat", "dog", "truck","person","horse"]
     text_tag = [["second"],["first"],["이거", "오류"],["아프리카돼지열병"]]
