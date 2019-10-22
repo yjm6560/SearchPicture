@@ -485,7 +485,7 @@
  484: 'catamaran',
  485: 'CD player',
  486: 'cello, violoncello',
- 487: 'cellular telephone, cellular phone, cellphone, cell, mobile phone',
+ 487: 'cellular telephone, cellular phone, cell phone, cell, mobile phone',
  488: 'chain',
  489: 'chainlink fence',
  490: 'chain mail, ring mail, mail, chain armor, chain armour, ring armor, ring armour',

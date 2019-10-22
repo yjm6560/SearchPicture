@@ -16149,7 +16149,7 @@ n02991950	cellarage
 n02992032	cellblock, ward
 n02992211	cello, violoncello
 n02992368	cellophane
-n02992529	cellular telephone, cellular phone, cellphone, cell, mobile phone
+n02992529	cellular telephone, cellular phone, cell phone, cell, mobile phone
 n02992795	cellulose tape, Scotch tape, Sellotape
 n02993081	Celtic cross
 n02993194	cenotaph, empty tomb
