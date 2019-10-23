@@ -60,7 +60,10 @@ class ImageClassifier:
     def getRelatedClasses(self, keywords):
         ret = []
         for key in keywords:
-            ret += self.hierarchyTree.searchKeyword(key)
+            try:
+                ret += self.hierarchyTree.searchKeyword(key)
+            except:
+                continue
         ret = list(set(ret))
 
         return ret
