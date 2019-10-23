@@ -60,6 +60,8 @@ class HierarchyTree:
 
         f.close()
 
+#        self.showTree()
+
         for row in RenderTree(self.node_set[0]):
             pre, fill, node = row
             if node.is_leaf:
@@ -69,7 +71,7 @@ class HierarchyTree:
                     parent_node = node.parent
                     node.parent = None
                     del node
-                    while(len(parent_node.children) == 0):
+                    while(len(parent_node.children) == 0 and not self.is_in_training_dataset(parent_node.data)):
                         tmp_node = parent_node.parent
                         parent_node.parent = None
                         del parent_node
@@ -143,8 +145,8 @@ class HierarchyTree:
 if __name__ == "__main__":
     ht = HierarchyTree("HierarchyTree.dat", "Imagenet.txt", "wnid2name.txt")
     ht.makeHierarchyTree()
-    print(f'keyword : 옷의류 result : {ht.searchKeyword("패션의류")}')
-    print(f'keyword : 러닝 result : {ht.searchKeyword("러닝")}')
-    print(f'keyword : 신발 result : {ht.searchKeyword("신발")}')
-    print(f'keyword : cat result : {ht.searchKeyword("cat")}')
+#    print(f'keyword : 옷의류 result : {ht.searchKeyword("패션의류")}')
+#    print(f'keyword : 러닝 result : {ht.searchKeyword("러닝")}')
+#    print(f'keyword : 신발 result : {ht.searchKeyword("신발")}')
+#    print(f'keyword : cat result : {ht.searchKeyword("cat")}')
     ht.showTree()
