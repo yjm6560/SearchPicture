@@ -20,11 +20,8 @@ class ImageGetter:
         return self.path_dir
 
     def getFileList(self):
-        file_path_list = []
         file_name_list = os.listdir(self.path_dir)
-        for file_name in file_name_list:
-            file_path_list.append(self.path_dir + '\\' + file_name)
-        return file_path_list
+        return [self.path_dir + '\\' + file_name for file_name in file_name_list]
 
 
 if __name__ == "__main__":
