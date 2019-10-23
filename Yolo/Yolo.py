@@ -74,7 +74,7 @@ class Yolo:
         scale = 0.00392
         class_list = []
 
-        blob = cv2.dnn.blobFromImages(image, scale, (416, 416), (0, 0, 0), True, crop=False)
+        blob = cv2.dnn.blobFromImage(image, scale, (416, 416), (0, 0, 0), True, crop=False)
         net.setInput(blob)
 
         outs = net.forward(self.get_output_layers(net))
