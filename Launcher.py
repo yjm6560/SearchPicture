@@ -11,7 +11,7 @@ Launcher
 #TODO : 지금은 한 번 돌고 끝내는 상황임. 무한으로 돌게 고쳐야됨
 #TODO : 계층트리 적용
 
-DEBUG = True
+DEBUG = False
 
 if __name__ == "__main__":
 
@@ -26,17 +26,17 @@ if __name__ == "__main__":
     #image classify
 
     IC = ImageClassifier.ImageClassifier(user)
-    data_list = IC.imagesClassify()
+    data_list = IC.classifyImagesByBatch()
 
     #classify images and insert into database
     print("="*30)
-    print("INSERTED IMAGE LIST")
+    print("INSERTING IMAGES")
     print("="*30)
     for data in data_list:
         logger.insertNonTextyPhoto(data[0], data[1], data[2])
     #test example
-    tag_data = ["cat", "dog", "truck","person","horse"]
-    text_tag = [["second"],["first"],["이거", "오류"],["아프리카돼지열병"]]
+    tag_data = ["animal", "truck","person","cell phone"]
+    text_tag = [["second","first"],["이거", "오류"],["아프리카돼지열병"]]
 
     #search by tag
     print("="*30)
