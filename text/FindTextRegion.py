@@ -22,13 +22,15 @@ morphClose() : widht, height, iter
 '''
 
 class FindTextRegion:
-    def __init__(self, image):
-        self.original_image = image
+    def __init__(self):
+        self.new_width = 720
+
+    def setImage(self, img):
+        self.original_image = img
 
     def changeImageSize(self):
         height, width, channel = self.original_image.shape
-        self.new_width = 720
-        self.new_height = int((self.new_width * 720) / width)
+        self.new_height = int((height * self.new_width) / width)
         if width >= self.new_width:
             self.resizing_image = cv2.resize(self.original_image, dsize=(self.new_width, self.new_height), interpolation=cv2.INTER_AREA)
         else:
