@@ -2,6 +2,8 @@ import cv2
 import argparse
 import numpy as np
 
+import Launcher
+
 '''
 Yolo
     Object Detector
@@ -14,10 +16,10 @@ Yolo
 
 class Yolo:
 
-    def __init__(self, weights, cfg, txt):
+    def __init__(self, weights, cfg, names):
         self.weights_file = weights
         self.config_file = cfg
-        self.classes_file = txt
+        self.classes_file = names
         self.classes = []
         with open(self.classes_file, 'r') as f:
             self.classes = [line.strip() for line in f.readlines()]
@@ -102,5 +104,7 @@ def parser(self):
 
 
 if __name__ == "__main__":
-    yolo = Yolo('yolov3.weights','yolov3.cfg','yolov3.txt')
-    print(yolo.detectObj_in_Images(cv2.imread('dog.jpg')))
+    yolo = Yolo('yolov3.weights', 'yolov3.cfg', 'yolov3.txt')
+#    yolo = Yolo('yolo-obj_final.weights', 'yolo-obj.cfg', 'myObj.names')
+#    yolo = Yolo('darknet\yolo9000\yolo9000.weights', 'darknet\yolo9000\yolo9000.cfg', 'darknet\yolo9000\9k.names')
+    print(yolo.detectObj_in_Image(cv2.imread('cat.jpg')))
