@@ -23,7 +23,8 @@ class TesseractOCR:
 
     def single_ocr(self, img, send_end):
         string = pytesseract.image_to_string(img, lang='kor+eng')
-        send_end.send(string)
+        return string
+#        send_end.send(string)
 
     def parallel_ocr(self, text_region_list, batch_size=8):
         '''
@@ -65,9 +66,6 @@ class TesseractOCR:
     def findTextOnImage(self, image):
         #image는 cv2.imread()로 읽은 사진
         
-        if Launcher.DEBUG:
-            return self.ocr([image])
-
         self.findtextregion.setImage(image)
         text_region_list = self.findtextregion.findTextRegion(3, 3, 15, 3, 3, 3, 1)
         result = self.parallel_ocr(text_region_list)

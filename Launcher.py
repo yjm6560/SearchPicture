@@ -1,6 +1,7 @@
 import ImageClassifier
 import Logger
 from FilePath import FilePathGetter
+import threading
 '''
 Launcher
     실행 파일
@@ -20,20 +21,30 @@ if __name__ == "__main__":
     user = user_2
     #db 파일 생성
     logger = Logger.Logger(user)
-    logger.cur.execute("DROP TABLE IF EXISTS "+ FilePathGetter.getDBName())
+    logger.cur.execute("DROP TABLE IF EXISTS " + FilePathGetter.getDBName())
     logger.createTable()
 
     #image classify
 
     IC = ImageClassifier.ImageClassifier(user)
-    data_list = IC.classifyImagesByBatch()
+    threads = []
+    threads.append(threading.Thread(target=IC.classifyObjImagesByBatch, args=(logger, 8)))
+    threads.append(threading.Thread(target=IC.analyzeTextImages, args=(logger, 8)))
+    if DEBUG:
+        print("THREAD START")
+
+    for i in range(len(threads)):
+        threads[i].start()
+    for i in range(len(threads)):
+        threads[i].join()
+
+    if DEBUG:
+        print("THREAD END")
 
     #classify images and insert into database
     print("="*30)
     print("INSERTING IMAGES")
     print("="*30)
-    for data in data_list:
-        logger.insertNonTextyPhoto(data[0], data[1], data[2])
     #test example
     tag_data = ["animal", "truck","person","cell phone"]
     text_tag = [["second","first"],["이거", "오류"],["아프리카돼지열병"]]
