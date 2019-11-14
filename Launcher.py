@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     #image classify
 
-    IC = ImageClassifier.ImageClassifier(user)
+    IC = ImageClassifier.ImageClassifier(user, logger)
     threads = []
 #    threads.append(threading.Thread(target=IC.classifyObjImagesByBatch, args=(logger, 8)))
     threads.append(threading.Thread(target=IC.classifyObjImages_sub, args=(logger, 8)))

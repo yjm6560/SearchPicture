@@ -19,12 +19,12 @@ ImageClassifier
 '''
 #TODO : 1. OCR 적용 2. batch 적용
 
-class ImageClassifier(threading.Thread):
+class ImageClassifier():
 
-    def __init__(self, user_id):
+    def __init__(self, user_id, logger):
         threading.Thread.__init__(self)
         self.imageGetter = GI.ImageGetter(user_id)
-        self.fileList = self.imageGetter.getFileList()
+        self.fileList = self.imageGetter.getFileList(logger)
         self.textAnalyzer = TesseractOCR.TesseractOCR()
 #        self.objClassifier = Yolo.Yolo('Yolo\darknet\yolo9000\yolo9000.weights', 'Yolo\darknet\yolo9000\yolo9000_2.cfg','Yolo\darknet\yolo9000\9k.names')
         self.objClassifier = Yolo.Yolo('Yolo\yolov3.weights', 'Yolo\yolov3.cfg', 'Yolo\yolov3.txt')

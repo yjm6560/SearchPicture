@@ -75,6 +75,10 @@ class Logger:
             self.cur.execute(update_query, (text, photo_path))
         self.conn.commit()
 
+    def getAllPath(self):
+        getPath_query = f"SELECT path FROM {self.db_name}"
+        self.cur.execute(getPath_query)
+        return self.cur.fetchall()
 
 if __name__ == "__main__":
     logger = Logger("yjm6560")
