@@ -1,4 +1,6 @@
 import sqlite3
+import threading
+
 from FilePath import FilePathGetter
 '''
 Logger
@@ -18,11 +20,13 @@ class Logger:
         self.db_name = FilePathGetter.getDBName() + "_" + user_id
         self.conn = sqlite3.connect(self.db_name + ".db", check_same_thread=False)
         self.cur = self.conn.cursor()
+        self.lock = threading.Lock()
 
     def createTable(self):
         #db 파일 생성
         create_query = "CREATE TABLE IF NOT EXISTS " + self.db_name + "(photo_id integer, path TEXT PRIMARY KEY , tag_list TEXT, text_img TEXT)"
         self.cur.execute(create_query)
+        self.conn.commit()
 
     def getPhotoByTag(self, tag_keywords):
         #태그로 이미지 검색
@@ -42,12 +46,21 @@ class Logger:
 
     def insertNonTextyPhoto(self, photo_id, photo_path, tag_list):
         #텍스트 미포함 이미지 삽입
+        self.lock.acquire()
         insert_query = "INSERT INTO " + self.db_name + "(photo_id, path, tag_list) VALUES( ? , ? , ? )"
         try:
             self.cur.execute(insert_query, (photo_id, photo_path, "/" + "/".join(tag_list) + "/"))
         except sqlite3.IntegrityError as e:
+            select_query = f"SELECT tag_list FROM {self.db_name} WHERE path=\"{photo_path}\""
+            self.cur.execute(select_query)
+            obj_list = self.cur.fetchall()
+            if obj_list and obj_list[0][0] != "":
+                print("OBJ LIST : ",obj_list)
+                tag_list = tag_list + obj_list[0][0].split("/")
             update_query = f"UPDATE {self.db_name} SET tag_list = ? WHERE path = ?"
             self.cur.execute(update_query, ("/" + "/".join(tag_list) + "/", photo_path))
+        self.lock.release()
+        self.conn.commit()
 
     def insertTextyPhoto(self, photo_id, photo_path, text):
         #텍스트 포함 이미지 삽입
@@ -60,6 +73,8 @@ class Logger:
         except sqlite3.IntegrityError as e:
             update_query = f"UPDATE {self.db_name} SET text_img = ? WHERE path = ?"
             self.cur.execute(update_query, (text, photo_path))
+        self.conn.commit()
+
 
 if __name__ == "__main__":
     logger = Logger("yjm6560")

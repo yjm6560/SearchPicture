@@ -21,10 +21,10 @@ class TesseractOCR:
         pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract' #tesseract가 저장된 경로 입력
         self.findtextregion = FindTextRegion.FindTextRegion()
 
-    def single_ocr(self, img, send_end):
+    def single_ocr(self, img, q):
         string = pytesseract.image_to_string(img, lang='kor+eng')
+        q.put(string)
         return string
-#        send_end.send(string)
 
     def parallel_ocr(self, text_region_list, batch_size=8):
         '''
@@ -47,19 +47,20 @@ class TesseractOCR:
                 ret = text_region_list[i*batch_size:(i+1)*batch_size]
 
             procs = []
-            pipe_list = []
+            q = multiprocessing.Queue()
             for img in ret:
-                recv_end, send_end = multiprocessing.Pipe(False)
-                proc = multiprocessing.Process(target=self.single_ocr, args=(img,send_end))
+                #recv_end, send_end = multiprocessing.Pipe(False)
+                proc = multiprocessing.Process(target=self.single_ocr, args=(img,q,))
                 procs.append(proc)
-                pipe_list.append(recv_end)
+                #pipe_list.append(recv_end)
                 proc.start()
 
             for proc in procs:
                 proc.join()
 
-            for x in pipe_list:
-                result = result + x.recv()
+            while not q.empty():
+                string = q.get()
+                result = result + string
 
         return result
 
@@ -74,7 +75,7 @@ class TesseractOCR:
 
 
 #text
-'''
+
 if __name__ == "__main__":
     a = cv2.imread('6.jpg')
     b = TesseractOCR()
@@ -82,4 +83,3 @@ if __name__ == "__main__":
 
     print('********result*********')
     print(result)
-'''

@@ -21,7 +21,7 @@ class ImageGetter:
 
     def getFileList(self):
         file_name_list = os.listdir(self.path_dir)
-        return [self.path_dir + '\\' + file_name for file_name in file_name_list]
+        return [self.path_dir + '\\' + file_name for file_name in file_name_list if ".jpg" in file_name or ".png" in file_name]
 
 
 if __name__ == "__main__":

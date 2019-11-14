@@ -28,8 +28,11 @@ if __name__ == "__main__":
 
     IC = ImageClassifier.ImageClassifier(user)
     threads = []
+#    threads.append(threading.Thread(target=IC.classifyObjImagesByBatch, args=(logger, 8)))
+    threads.append(threading.Thread(target=IC.classifyObjImages_sub, args=(logger, 8)))
     threads.append(threading.Thread(target=IC.classifyObjImagesByBatch, args=(logger, 8)))
     threads.append(threading.Thread(target=IC.analyzeTextImages, args=(logger, 8)))
+
     if DEBUG:
         print("THREAD START")
 
@@ -46,7 +49,7 @@ if __name__ == "__main__":
     print("INSERTING IMAGES")
     print("="*30)
     #test example
-    tag_data = ["animal", "truck","person","cell phone"]
+    tag_data = ["animal", "truck","person","cell phone","pizza"]
     text_tag = [["second","first"],["이거", "오류"],["아프리카돼지열병"]]
 
     #search by tag

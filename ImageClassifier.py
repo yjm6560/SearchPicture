@@ -8,6 +8,8 @@ import ImageGetter as GI
 import text.TesseractOCR as TesseractOCR
 import threading
 import Logger
+from Yolo.Yolo_cmd import Yolo_cmd
+
 '''
 ImageClassifier
     이미지 분류기
@@ -24,10 +26,12 @@ class ImageClassifier(threading.Thread):
         self.imageGetter = GI.ImageGetter(user_id)
         self.fileList = self.imageGetter.getFileList()
         self.textAnalyzer = TesseractOCR.TesseractOCR()
-#        self.objClassifier = Yolo.Yolo('Yolo\darknet\yolo9000\yolo9000.weights', 'Yolo\darknet\yolo9000\yolo9000.cfg','Yolo\darknet\yolo9000\9k.names')
+#        self.objClassifier = Yolo.Yolo('Yolo\darknet\yolo9000\yolo9000.weights', 'Yolo\darknet\yolo9000\yolo9000_2.cfg','Yolo\darknet\yolo9000\9k.names')
         self.objClassifier = Yolo.Yolo('Yolo\yolov3.weights', 'Yolo\yolov3.cfg', 'Yolo\yolov3.txt')
         self.hierarchyTree = HierarchyTree.HierarchyTree("HierarchyTree\HierarchyTree.dat", "HierarchyTree/Imagenet.txt", "HierarchyTree/wnid2name.txt")
         self.hierarchyTree.makeHierarchyTree()
+        self.Yolo_sub = Yolo_cmd('C:/Users\yjm6560\Desktop\yjm6560\CE\graduation_project\SearchPicture\Yolo\darknet\yolo9000\input.txt',
+                                 'C:/Users\yjm6560\Desktop\yjm6560\CE\graduation_project\SearchPicture\Yolo\darknet/ret.txt')
 
     def readImages(self):
         imageList = []
@@ -54,11 +58,20 @@ class ImageClassifier(threading.Thread):
                    print(f'\t{self.getRelatedClasses(ret[j])}')
                logger.insertNonTextyPhoto(order, self.fileList[order], self.getRelatedClasses(ret[j]))
 
+    def classifyObjImages_sub(self, logger, batch_size=8):
+        img_path_f = open(self.Yolo_sub.img_list, "w+")
+        for img_path in self.fileList:
+            img_path_f.write(img_path + "\n")
+        self.Yolo_sub.writeDetectRet()
+        ret = self.Yolo_sub.getObjList()
+        for i in range(len(ret)):
+            logger.insertNonTextyPhoto(i, ret[i][0], self.getRelatedClasses(ret[i][1]))
+
     def analyzeTextImages(self, logger, batch_size=8):
         image_list = self.readImages()
         for i in range(0, len(image_list)):
-            logger.insertTextyPhoto(i, self.fileList[i], self.textAnalyzer.single_ocr(image_list[i], "none"))
-#            logger.insertTextyPhoto(i, self.fileList[i], [], self.textAnalyzer.findTextOnImage(image_list[i]))
+#            logger.insertTextyPhoto(i, self.fileList[i], self.textAnalyzer.single_ocr(image_list[i], "none"))
+            logger.insertTextyPhoto(i, self.fileList[i], self.textAnalyzer.findTextOnImage(image_list[i]))
 
     def analyzeTextImagesByBatch(self, logger, batch_size=8):
         image_list = self.readImages()

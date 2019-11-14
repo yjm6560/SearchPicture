@@ -9,6 +9,9 @@ filePathGetter
         4. 트레이닝 이미지가 있는 디렉토리
         5. 데이터베이스 파일
 '''
+import os
+
+
 class FilePathGetter:
 
     @staticmethod
@@ -21,7 +24,7 @@ class FilePathGetter:
 
     @staticmethod
     def getImageDirPath():
-        return "image"
+        return f'{os.path.abspath(os.getcwd())}\image'
 
     @staticmethod
     def getTrainingImageDirPath():
