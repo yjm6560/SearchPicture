@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>EJS TEST</title>
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
         <style>
@@ -94,14 +95,45 @@
             </div>
             <br style="font-size: 0.3em">
             <div class="tag_class">
-                <label><input type="radio" name="tag" checked="checked" value="ot"> Object + Text Tag</label>
-                <label><input type="radio" name="tag" value="o"> Object Tag</label>
-                <label><input type="radio" name="tag" value="t"> Text Tag</label>
+                <label><input type="radio" id="tag" name="tag" checked="checked" value="ot"> Object + Text Tag</label>
+                <label><input type="radio" id="tag" name="tag" value="o"> Object Tag</label>
+                <label><input type="radio" id="tag" name="tag" value="t"> Text Tag</label>
             </div>
             <br>
             <div class="container-1">
-                <span class="icon"><i class="fa fa-search"></i></span>
+                <span class="icon"><i class="fa fa-search" id="do_search"></i></span>
                 <input type="search" id="search" placeholder="Search..." />
+                <script>
+                    function search_type() {
+                        var tag_type = document.getElementsByName('tag')
+                        for (var i = 0; i < tag_type.length; i++) {
+                            if (tag_type[i].checked)
+                                alert(tag_type[i].val())
+                                return tag_type[i].val()
+                        }
+                    }
+                </script>
+                <script>
+                    var search_type = search_type()
+                    $("#do_search").click(function(){
+                        $.ajax({
+                            url: '/analysis',
+                            async: true,
+                            type: 'POST',
+                            data: {
+                                keywords : $("#search").val(),
+                                tag_type : search_type
+                            },
+                            dataType: 'Json',
+                            success: function (data) {
+                                alert("Send Success");
+                            },
+                            error: function (err) {
+                                alert("Send Fail" + err);
+                            }
+                        })
+                    });
+                </script>
             </div>
         </div>
     </body>
