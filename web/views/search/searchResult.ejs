@@ -2,8 +2,9 @@
 <head>
     <title>EJS TEST</title>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
     <script>
-        function imgbigview(a, b) {
+        function imgbigview(a, b, c) {
             document.getElementById(b).getElementsByTagName("img")[0].src = a.src;
             if(document.getElementById(b).style.display == 'block') {
                 document.getElementById(b).style.display = 'none';
@@ -142,12 +143,8 @@
         <span class="tag_class">Object</span>
         <div class="img_box">
             <%for(var i=0; i<object_row.length;i++){%>
-            <%="../image/easy/"+object_row[i].split("\\")[object_row.length - 1]%>
-            <a href="<%object_row[i].split("\\").join("/")%>" onclick="imgbigview(this, 'bigimg'); return false;"><img class='img_obj' src="<%= "../image/easy/"+object_row[i].split("\\")[object_row.length]%>" alt="이미지"/></a>
+            <a><img class='img_obj' src="<%= object_row[i]%>" onclick="imgbigview(this, 'bigimg'); return false;"  alt="이미지"/></a>
             <%}%>
-            <div id="bigimg" style="display: none; position: fixed; left: 30%; top: 30%; overflow: hidden; border: 0px solid black;" align="center">
-                <img src="" width="500" style="border:1px solid blue;" onclick="hide('bigimg')"/>
-            </div>
         </div>
     </div>
     <div class="vertical_bar">
@@ -157,11 +154,15 @@
         <span class="tag_class">Text</span>
         <div class="img_box">
             <%for(var i=0; i<text_row.length;i++){%>
-            <p><img class='img_obj' src="<%=text_row[i]%>" alt="이미지"/></p>
+            <p><img class='img_obj' src="<%=text_row[i]%>" onclick="imgbigview(this, 'bigimg'); return false;" alt="이미지"/></p>
+            <!--           <p><img class='img_obj' src="<%=text_row[i]%>" onclick="window.open(this.src)" alt="이미지"/></p>-->
             <%}%>
         </div>
     </div>
-</div>
+        <div id="bigimg" style="display: none; position: fixed; left: 33%; top: 15%; overflow: hidden; border: 0px solid black; z-index: 3; text-align: center ">
+            <img src="" style="border:1px solid blue; max-height: 75%; max-width: 50%; position: fixed;" onclick="hide('bigimg')"/>
+        </div>
+    </div>
 <div class="bottom"></div>
 </body>
 </html>

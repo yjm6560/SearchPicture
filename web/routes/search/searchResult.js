@@ -138,7 +138,7 @@ var searchResult = {
                         text_row.push(row[i]['path']);
                         i = i + 1;
                     }
-
+                    console.log(text_row);
                     res.render('search/searchResult', {option:option, object_row:[], text_row:text_row});
                 });
             });
