@@ -12,7 +12,7 @@ app.set('views', __dirname + '\\views');
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: false}));
-
+app.use(express.static(__dirname + '/'));
 //서버 생성
 http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
