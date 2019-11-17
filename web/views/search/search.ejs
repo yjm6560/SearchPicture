@@ -88,22 +88,22 @@
     </head>
     <body>
     <div class="top"></div>
-    <div class="box">
+        <form action="http://localhost:8080/search/result" class="box" method="post">
             <div class="title">
                 <span style="font-family: Impact, Haettenschweiler">Find Image in Gallery</span>
             </div>
             <br style="font-size: 0.3em">
             <div class="tag_class">
-                <label><input type="radio" name="tag" checked="checked" value="ot"> Object + Text Tag</label>
-                <label><input type="radio" name="tag" value="o"> Object Tag</label>
-                <label><input type="radio" name="tag" value="t"> Text Tag</label>
+                <label><input type="radio" name="option" checked="checked" value="ot"> Object + Text Tag</label>
+                <label><input type="radio" name="option" value="o"> Object Tag</label>
+                <label><input type="radio" name="option" value="t"> Text Tag</label>
             </div>
             <br>
             <div class="container-1">
                 <span class="icon"><i class="fa fa-search"></i></span>
-                <input type="search" id="search" placeholder="Search..." />
+                <input type="search" name="keywords" id="search" placeholder="Search..." />
             </div>
-        </div>
+        </form>
     </body>
     <div class="bottom"></div>
 </html>

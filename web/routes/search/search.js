@@ -1,5 +1,10 @@
 var express = require('express');
+var app = express();
 var router = express.Router();
+var sqlite3 = require('sqlite3');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 let db = new sqlite3.Database('../photo_data_admin.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -9,23 +14,19 @@ let db = new sqlite3.Database('../photo_data_admin.db', sqlite3.OPEN_READWRITE, 
     }
 });
 
-router.get('/search', function(request, response){
-    res.render('insert');
-});
-
-router.post('/', function(req,res,next){
-    var keywords = req.body;
-    var k = 'text_img LIKE \"%' + keywords[0] + '%\"';
-    var i = 0;
-    for(i < keywords.length) {
-        k = k + ' AND text_img LIKE \"%' + keywords[i] + '%\"';
+var search = {
+    show : function(req, res) {
+        res.render('search/search');
     }
+};
 
-    const query = `SELECT phto_id, path, tag_list FROM photo_data_admin.db WHERE '${k}'`;
+var searchResult = require('./searchResult');
 
-    db.serialize();
-    db.all(query, (err, row) => {
-        res.render('show', {data:row});
-    });
-})
+/*router.get('/search/result', (req, res) => {
+    console.log(req);
+    var keywords = req.body.keywords;
+    res.send(`keywords : ${keywords}`);
+    searchResult.show(req, res);
+});*/
 
+module.exports = search;
