@@ -55,6 +55,23 @@ var searchResult = {
             k = k + ';';
 
             text_query = `SELECT path FROM ${table_name} WHERE ${k}`;
+
+            db.serialize(( ) => {
+                db.all(object_query, (err, object_row) => {
+                    if (err) {
+                        console.error(err.message);
+                    };
+
+                    db.all(text_query, (err, text_row) => {
+                        if (err) {
+                            console.error(err.message);
+                        }
+                        res.render('search/searchResult', {option:option, object_row:object_row, text_row:text_row});
+                    });
+
+                });
+            });
+
         } else if (option == 'o') {
             //object search
             k = 'tag_list LIKE \"%/' + keyword_list[0] + '/%\"';
@@ -66,6 +83,16 @@ var searchResult = {
             k = k + ';';
 
             object_query = `SELECT path FROM ${table_name} WHERE ${k}`;
+
+            db.serialize(( ) => {
+                db.all(object_query, (err, row) => {
+                    if (err) {
+                        console.error(err.message);
+                    }
+                    res.render('search/searchResult', {option:option, object_row:row, text_row:[]});
+                });
+            });
+
         } else if (option == 't') {
             //text search
             var k = 'text_img LIKE \"%' + keyword_list[0] + '%\"';
@@ -77,40 +104,16 @@ var searchResult = {
             k = k + ';';
 
             text_query = `SELECT path FROM ${table_name} WHERE ${k}`;
-        }
 
-        var object_row = [];
-        var text_row = [];
-        if (object_query != '') {
-            db.serialize(( ) => {
-                db.all(object_query, (err, row) => {
-                    if (err) {
-                        console.error(err.message);
-                    }
-                    console.log('row');
-                    console.log(row);
-                    object_row = row.slice();
-                    console.log('object_row');
-                    console.log(object_row);
-                });
-            });
-        }
-        if (text_query != '') {
             db.serialize(( ) => {
                 db.all(text_query, (err, row) => {
                     if (err) {
                         console.error(err.message);
                     }
-                    //console.log(row);
-                    text_row = row.slice();
+                    res.render('search/searchResult', {option:option, object_row:[], text_row:row});
                 });
             });
         }
-
-        console.log(object_row);
-        console.log(text_row);
-
-        res.render('search/searchResult', {option:option, object_row:object_row, text_row:text_row});
     }
 };
 
