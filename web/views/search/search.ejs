@@ -1,109 +1,109 @@
 <html>
-    <head>
-        <title>EJS TEST</title>
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<head>
+    <title>EJS TEST</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-        <style>
-            body{
-                background: white;
-                font-weight: bold;
-                height: 100%;
-                top: 50%;
-            }
-            .top{
-                width: 100%;
-                height: 30px;
-                background-color: dodgerblue;
-            }
-            .box{
-                margin: 100px auto;
-                width: 100%;
-                height: 150px;
-                position: relative;
-                top: 20%;
-                align-self: center;
-                text-align: center;
-            }
-            .title{
-                vertical-align: middle;
-                text-align: center;
-                color: dodgerblue;
-                font-size: 6em;
-                top: 30%;
-            }
-            .tag_class{
-                color: dodgerblue;
-                font-size: 1.2em;
-            }
-            .container-1{
-                white-space: nowrap;
-                align-content: center;
-                display: inline-block;
-            }
+    <style>
+        body{
+            background: white;
+            font-weight: bold;
+            height: 100%;
+            top: 50%;
+        }
+        .top{
+            width: 100%;
+            height: 30px;
+            background-color: dodgerblue;
+        }
+        .box{
+            margin: 100px auto;
+            width: 100%;
+            height: 150px;
+            position: relative;
+            top: 20%;
+            align-self: center;
+            text-align: center;
+        }
+        .title{
+            vertical-align: middle;
+            text-align: center;
+            color: dodgerblue;
+            font-size: 6em;
+            top: 30%;
+        }
+        .tag_class{
+            color: dodgerblue;
+            font-size: 1.2em;
+        }
+        .container-1{
+            white-space: nowrap;
+            align-content: center;
+            display: inline-block;
+        }
 
-            .container-1 input#search{
-                width: 500px;
-                height: 35px;
-                background: ghostwhite;
-                border-color: dodgerblue;
-                top: 50%;
-                position: relative;
-                font-size: 12pt;
-                float: left;
-                padding-left: 20px;
-                padding-right: 30px;
-                -webkit-border-radius: 5px;
-                -moz-border-radius: 5px;
-                border-radius: 7px;
+        .container-1 input#search{
+            width: 500px;
+            height: 35px;
+            background: ghostwhite;
+            border-color: dodgerblue;
+            top: 50%;
+            position: relative;
+            font-size: 12pt;
+            float: left;
+            padding-left: 20px;
+            padding-right: 30px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 7px;
 
-                -webkit-transition: background .55s ease;
-                -moz-transition: background .55s ease;
-                -ms-transition: background .55s ease;
-                -o-transition: background .55s ease;
-                transition: background .55s ease;
-            }
-            .container-1 .icon{
-                font-size: 23px;
-                position: relative;
-                margin-top: 25px;
-                margin-left: -35px;
-                z-index: 1;
-                top: 6px;
-                color: dodgerblue;
-               text-align: right;
-            }
-            .container-1 input#search:hover, .container-1 input#search:focus, .container-1 input#search:active{
-                outline:none;
-                background: #ffffff;
-            }
-            .bottom{
-                position:absolute;
-                bottom: 0;
-                width: 100%;
-                height: 30px;
-                background-color: dodgerblue;
-            }
+            -webkit-transition: background .55s ease;
+            -moz-transition: background .55s ease;
+            -ms-transition: background .55s ease;
+            -o-transition: background .55s ease;
+            transition: background .55s ease;
+        }
+        .container-1 .icon{
+            font-size: 23px;
+            position: relative;
+            margin-top: 25px;
+            margin-left: -35px;
+            z-index: 1;
+            top: 6px;
+            color: dodgerblue;
+            text-align: right;
+        }
+        .container-1 input#search:hover, .container-1 input#search:focus, .container-1 input#search:active{
+            outline:none;
+            background: #ffffff;
+        }
+        .bottom{
+            position:absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            background-color: dodgerblue;
+        }
 
-        </style>
-    </head>
-    <body>
-    <div class="top"></div>
-        <form action="http://localhost:8080/search/result" class="box" method="post">
-            <div class="title">
-                <span style="font-family: Impact, Haettenschweiler">Find Image in Gallery</span>
-            </div>
-            <br style="font-size: 0.3em">
-            <div class="tag_class">
-                <label><input type="radio" name="option" checked="checked" value="ot"> Object + Text Tag</label>
-                <label><input type="radio" name="option" value="o"> Object Tag</label>
-                <label><input type="radio" name="option" value="t"> Text Tag</label>
-            </div>
-            <br>
-            <div class="container-1">
-                <span class="icon"><i class="fa fa-search"></i></span>
-                <input type="search" name="keywords" id="search" placeholder="Search..." />
-            </div>
-        </form>
-    </body>
-    <div class="bottom"></div>
+    </style>
+</head>
+<body>
+<div class="top"></div>
+<form action="http://localhost:8080/search/result" class="box" method="post">
+    <div class="title">
+        <span style="font-family: Impact, Haettenschweiler">Find Image in Gallery</span>
+    </div>
+    <br style="font-size: 0.3em">
+    <div class="tag_class">
+        <label><input type="radio" name="option" checked="checked" value="ot"> Object + Text Tag</label>
+        <label><input type="radio" name="option" value="o"> Object Tag</label>
+        <label><input type="radio" name="option" value="t"> Text Tag</label>
+    </div>
+    <br>
+    <div class="container-1">
+        <span class="icon"><i class="fa fa-search"></i></span>
+        <input type="search" name="keywords" id="search" placeholder="Search..." />
+    </div>
+</form>
+</body>
+<div class="bottom"></div>
 </html>
