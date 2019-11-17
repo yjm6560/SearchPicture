@@ -57,15 +57,28 @@ var searchResult = {
             text_query = `SELECT path FROM ${table_name} WHERE ${k}`;
 
             db.serialize(( ) => {
-                db.all(object_query, (err, object_row) => {
+                db.all(object_query, (err, row1) => {
                     if (err) {
                         console.error(err.message);
                     };
 
-                    db.all(text_query, (err, text_row) => {
+                    db.all(text_query, (err, row2) => {
                         if (err) {
                             console.error(err.message);
                         }
+                        var object_row = []
+                        var text_row = []
+
+                        i = 0;
+                        while(i < Object.keys(row1).length) {
+                            object_row.push(row1[i]['path']);
+                            i = i + 1;
+                        }
+                        while(i < Object.keys(row2).length) {
+                            text_row.push(row2[i]['path']);
+                            i = i + 1;
+                        }
+
                         res.render('search/searchResult', {option:option, object_row:object_row, text_row:text_row});
                     });
 
@@ -89,7 +102,15 @@ var searchResult = {
                     if (err) {
                         console.error(err.message);
                     }
-                    res.render('search/searchResult', {option:option, object_row:row, text_row:[]});
+
+                    var object_row = [];
+                    i = 0;
+                    while (i < Object.keys(row).length) {
+                        object_row.push(row[i]['path']);
+                        i = i + 1;
+                    }
+
+                    res.render('search/searchResult', {option:option, object_row:object_row, text_row:[]});
                 });
             });
 
@@ -110,7 +131,15 @@ var searchResult = {
                     if (err) {
                         console.error(err.message);
                     }
-                    res.render('search/searchResult', {option:option, object_row:[], text_row:row});
+
+                    var text_row = [];
+                    i = 0;
+                    while (i < Object.keys(row).length) {
+                        text_row.push(row[i]['path']);
+                        i = i + 1;
+                    }
+
+                    res.render('search/searchResult', {option:option, object_row:[], text_row:text_row});
                 });
             });
         }
