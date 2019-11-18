@@ -67,11 +67,13 @@
         .container-1 .icon{
             font-size: 23px;
             position: relative;
-            margin-top: 25px;
-            margin-left: -35px;
+            margin-top: 0px;
+            margin-left: -40px;
             z-index: 1;
             top: 6px;
             color: dodgerblue;
+            background-color: ghostwhite;
+            border: none;
             text-align: right;
         }
         .container-1 input#search:hover, .container-1 input#search:focus, .container-1 input#search:active{
@@ -102,9 +104,10 @@
     </div>
     <br>
     <div class="container-1">
-        <span class="icon"><i class="fa fa-search"></i></span>
+        <button class="icon" formaction="http://localhost:8080/search/result", formmethod="post"><i class="fa fa-search"></i></button>
         <input type="search" name="keywords" id="search" placeholder="Search..." />
     </div>
+    <button formaction="http://localhost:8080/analysis", formmethod="get" style="position: fixed; border-color: dodgerblue; background-color: white; color: dodgerblue; font-size: 1.5em; font-family: Impact, Haettenschweiler; width: 130px; height: 40px;bottom: 50px; right: 10px; ">analysis</button>
 </form>
 </body>
 <div class="bottom"></div>
