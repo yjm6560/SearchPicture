@@ -20,7 +20,7 @@ router.post('/search/result', function(req, res, next) {
     searchResult.show(req, res);
 });
 
-router.get('/analysis', function(req, res, next) {
+router.post('/analysis', function(req, res, next) {
     analysis.show(req, res);
 });
 
