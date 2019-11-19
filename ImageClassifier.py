@@ -27,8 +27,8 @@ class ImageClassifier():
         self.fileList = self.imageGetter.getFileList(logger)
         self.textAnalyzer = TesseractOCR.TesseractOCR()
 #        self.objClassifier = Yolo.Yolo('Yolo\darknet\yolo9000\yolo9000.weights', 'Yolo\darknet\yolo9000\yolo9000_2.cfg','Yolo\darknet\yolo9000\9k.names')
-        self.objClassifier = Yolo.Yolo('Yolo\yolov3.weights', 'Yolo\yolov3.cfg', 'Yolo\yolov3.txt')
-        self.hierarchyTree = HierarchyTree.HierarchyTree("HierarchyTree\HierarchyTree.dat", "HierarchyTree/Imagenet.txt", "HierarchyTree/wnid2name.txt")
+        self.objClassifier = Yolo.Yolo('..\Yolo\yolov3.weights', '..\Yolo\yolov3.cfg', '..\Yolo\yolov3.txt')
+        self.hierarchyTree = HierarchyTree.HierarchyTree("..\HierarchyTree\HierarchyTree.dat", "..\HierarchyTree/Imagenet.txt", "..\HierarchyTree/wnid2name.txt")
         self.hierarchyTree.makeHierarchyTree()
         self.Yolo_sub = Yolo_cmd('C:/Users\yjm6560\Desktop\yjm6560\CE\graduation_project\SearchPicture\Yolo\darknet\yolo9000\input.txt',
                                  'C:/Users\yjm6560\Desktop\yjm6560\CE\graduation_project\SearchPicture\Yolo\darknet/ret.txt')
@@ -62,10 +62,15 @@ class ImageClassifier():
         img_path_f = open(self.Yolo_sub.img_list, "w+")
         for img_path in self.fileList:
             img_path_f.write(img_path + "\n")
+        img_path_f.close()
         self.Yolo_sub.writeDetectRet()
         ret = self.Yolo_sub.getObjList()
+        if Launcher.DEBUG:
+            print(f"RESULT : {ret}")
         for i in range(len(ret)):
-            logger.insertNonTextyPhoto(i, ret[i][0], self.getRelatedClasses(ret[i][1]))
+            if Launcher.DEBUG:
+                print(f'{self.getRelatedClasses(ret[i][1])}')
+            logger.insertNonTextyPhoto(i, self.fileList[i], self.getRelatedClasses(ret[i][1]))
 
     def analyzeTextImages(self, logger, batch_size=8):
         image_list = self.readImages()
