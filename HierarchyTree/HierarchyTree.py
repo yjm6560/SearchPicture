@@ -61,7 +61,6 @@ class HierarchyTree:
         f.close()
 
 #        self.showTree()
-
         for row in RenderTree(self.node_set[0]):
             pre, fill, node = row
             if node.is_leaf:
@@ -78,10 +77,11 @@ class HierarchyTree:
                         parent_node = tmp_node
 
     def is_in_training_dataset(self, keyword):
-        if keyword[0] != "n" or self.icFilter.is_name_in_trainingLabel(keyword):
-            return True
-        else:
-            return False
+        return True
+#        if keyword[0] != "n" or self.icFilter.is_name_in_trainingLabel(keyword):
+#            return True
+#        else:
+#            return False
 
     def getData(self, wnid):
         if wnid[0] != "n":
@@ -113,6 +113,7 @@ class HierarchyTree:
         for row in RenderTree(node):
             pre, fill, node = row
             children.append(node.data)
+            break
         return children
 
     def getParents(self, node):
