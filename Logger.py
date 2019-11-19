@@ -18,7 +18,7 @@ class Logger:
     def __init__(self, user_id):
         #연결
         self.db_name = FilePathGetter.getDBName() + "_" + user_id
-        self.conn = sqlite3.connect(self.db_name + ".db", check_same_thread=False)
+        self.conn = sqlite3.connect("C:\\Users\\yjm6560\\Desktop\\yjm6560\\CE\\graduation_project\\SearchPicture\\" + self.db_name + ".db", check_same_thread=False)
         self.cur = self.conn.cursor()
         self.lock = threading.Lock()
 
