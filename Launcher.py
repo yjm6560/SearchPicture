@@ -17,18 +17,18 @@ DEBUG = False
 if __name__ == "__main__":
 
     user_1 = "yjm6560"
-    user_2 = "easy"
+    user_2 = "admin"
     user = user_2
     #db 파일 생성
     logger = Logger.Logger(user)
-    logger.cur.execute("DROP TABLE IF EXISTS " + FilePathGetter.getDBName())
     logger.createTable()
-
     #image classify
 
     IC = ImageClassifier.ImageClassifier(user, logger)
+    print(f"{len(IC.fileList)}")
+    if len(IC.fileList) == 0:
+        exit()
     threads = []
-#    threads.append(threading.Thread(target=IC.classifyObjImagesByBatch, args=(logger, 8)))
     threads.append(threading.Thread(target=IC.classifyObjImages_sub, args=(logger, 8)))
     threads.append(threading.Thread(target=IC.classifyObjImagesByBatch, args=(logger, 8)))
     threads.append(threading.Thread(target=IC.analyzeTextImages, args=(logger, 8)))
@@ -44,13 +44,16 @@ if __name__ == "__main__":
     if DEBUG:
         print("THREAD END")
 
+    exit()
+
     #classify images and insert into database
+    ###TEST CODE###
     print("="*30)
     print("INSERTING IMAGES")
     print("="*30)
     #test example
-    tag_data = ["animal", "truck","person","cell phone","pizza"]
-    text_tag = [["second","first"],["이거", "오류"],["아프리카돼지열병"]]
+    tag_data = ["pizza", "dog","cat","cell phone","pizza"]
+    text_tag = [["shop"],["cat", "shop"],["cat"]]
 
     #search by tag
     print("="*30)
@@ -70,5 +73,4 @@ if __name__ == "__main__":
         ret = logger.getPhotoByText(text)
         for dat in ret:
             print("\t", dat[1])
-
 
