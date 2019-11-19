@@ -52,15 +52,17 @@ class ImagenetClassFilter:
             return False
 
     def is_name_in_trainingLabel(self, name):
-        if name[0] != "n" or name[self.getLenWnid()+1 : ] in self.trainingLabel:
-            return True
-        else:
-            return False
+        return True
+#        if name[0] != "n" or name[self.getLenWnid()+1 : ] in self.trainingLabel:
+#            return True
+#        else:
+#            return False
     def is_wnid_in_trainingLabel(self, wnid):
-        if wnid[0] != "n" or wnid[:self.getLenWnid()] in self.trainingLabel:
-            return True
-        else:
-            return False
+        return True
+#        if wnid[0] != "n" or wnid[:self.getLenWnid()] in self.trainingLabel:
+#            return True
+#        else:
+#            return False
 
     def getData(self, wnid):
         if wnid in self.wnid2name.keys():
