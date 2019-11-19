@@ -28,7 +28,7 @@ var searchResult = {
         var text_query = '';
 
         //FROM에 테이블 이름
-        var table_name = 'photo_data_easy';
+        var table_name = 'photo_data_admin';
 
         //태그 검색 : WHERE tag_list LIKE "%/dog/%"
         //텍스트 검색 : WHERE text_img LIKE "%dog%"
