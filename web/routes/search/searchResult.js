@@ -70,13 +70,15 @@ var searchResult = {
                         var text_row = []
 
                         i = 0;
+                        var j = 0;
                         while(i < Object.keys(row1).length) {
                             object_row.push(row1[i]['path']);
                             i = i + 1;
-                        }
-                        while(i < Object.keys(row2).length) {
-                            text_row.push(row2[i]['path']);
-                            i = i + 1;
+
+                            while(j < Object.keys(row2).length) {
+                                text_row.push(row2[j]['path']);
+                                j = j + 1;
+                            }
                         }
 
                         res.render('search/searchResult', {option:option, object_row:object_row, text_row:text_row});
