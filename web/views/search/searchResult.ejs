@@ -100,6 +100,7 @@
             text-decoration: underline;
             margin-top: 1%;
             margin-left: 2%;
+            display: inline-block;
         }
         .tag_class{
             color: dodgerblue;
@@ -138,11 +139,6 @@
 <div class="title">
     <span style="font-family: Impact, Haettenschweiler">Search Result</span>
 </div>
-<form action="http://localhost:8080/search", method="get", class="box", style="margin-left: 80%; padding-top: 5%;" >
-    <button formaction="http://localhost:8080/search", formmethod="get" style="background-color: white; border: 2px solid dodgerblue; font-size: 1.2em; alignment: right; font-family: Impact, Haettenschweiler; color: dodgerblue">
-        Back to the Search Page
-    </button>
-</form>
 <div class="container-1">
     <div class="box1">
         <span class="tag_class">Object</span>
@@ -169,5 +165,10 @@
         </div>
     </div>
 <div class="bottom"></div>
+<form action="http://localhost:8080/search", method="get", class="box", style="position: fixed; margin-left: 80%; top: 10%;">
+    <button style="background-color: white; border: 2px solid dodgerblue; font-size: 1.2em; alignment: right; font-family: Impact, Haettenschweiler; color: dodgerblue">
+        Back to the Search Page
+    </button>
+</form>
 </body>
 </html>
