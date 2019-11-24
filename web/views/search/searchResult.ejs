@@ -155,7 +155,7 @@
         <span class="tag_class">Text</span>
         <div class="img_box">
             <%for(var i=0; i<text_row.length;i++){%>
-            <p><img class='img_obj' src="<%=text_row[i].replace("C:\\Users\\yjm6560\\Desktop\\yjm6560\\CE\\graduation_project\\SearchPicture\\web", "..")%>" onclick="imgbigview(this, 'bigimg'); return false;" alt="이미지"/></p>
+            <p><img class='img_obj' src="<%=text_row[i].replace("C:\\Users\\yjm6560\\Desktop\\yjm6560\\CE\\graduation_project\\SearchPicture\\web", "..")%>" onclick="imgbigview(this, 'bigimg'); return false;" alt="<%text_row[i]%>"/></p>
             <!--           <p><img class='img_obj' src="<%=text_row[i]%>" onclick="window.open(this.src)" alt="이미지"/></p>-->
             <%}%>
         </div>

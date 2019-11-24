@@ -71,16 +71,21 @@ var searchResult = {
 
                         i = 0;
                         var j = 0;
-                        while(i < Object.keys(row1).length) {
-                            object_row.push(row1[i]['path']);
+                        while(i <= Object.keys(row1).length) {
+                            if(Object.keys(row1).length > 0 && i < Object.keys(row1).length) {
+                                console.log('obj');
+                                console.log(row1[i]['path']);
+                                object_row.push(row1[i]['path']);
+                            }
                             i = i + 1;
-
                             while(j < Object.keys(row2).length) {
+                                console.log('txt');
                                 text_row.push(row2[j]['path']);
                                 j = j + 1;
                             }
                         }
-
+                        console.log(object_query);
+                        console.log(text_query);
                         res.render('search/searchResult', {option:option, object_row:object_row, text_row:text_row});
                     });
 
